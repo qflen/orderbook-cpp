@@ -17,6 +17,7 @@ g++ -O3 -std=c++17 Order.cpp Orderbook.cpp tests.cpp -o tests
 #include <iostream>
 
 // disable prune thread for simplicity
+// GFD orders must be then manually cancelled
 Orderbook ob(false);
 
 // add a limit sell @100×5
@@ -53,8 +54,10 @@ By default (`Orderbook ob;`) a background prune thread is also started:
 pruneThread_ = std::thread(&Orderbook::pruneThreadFunc, this);
 ```
 
-It uses the same mutex and a `std::condition_variable::wait_until` to wake at 16:00 each day and cancel all `GoodForDay` orders. To disable it (e.g., in tests), construct with:
+It uses the same mutex and a `std::condition_variable::wait_until` to wake at 16:00 each day and cancel all `GoodForDay (GFD)` orders. To disable it (e.g., in tests), construct with:
 
 ```cpp
 Orderbook ob(false);
 ```
+
+The difference is that in this case, `GFD` orders must be manually cancelled.
