@@ -16,9 +16,7 @@ g++ -O3 -std=c++17 Order.cpp Orderbook.cpp tests.cpp -o tests
 #include <memory>
 #include <iostream>
 
-// disable prune thread for simplicity
-// GFD orders must be then manually cancelled
-Orderbook ob(false);
+Orderbook ob();
 
 // add a limit sell @100×5
 ob.AddOrder(std::make_shared<Order>(1, Side::Sell, OrderType::GoodTillCancel, 100.0, 5));
